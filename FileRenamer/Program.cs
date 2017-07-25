@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Mime;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,7 +17,7 @@ namespace FileRenamer
             //---Test directory---
             //var dirPath = "C:\\Users\\danie\\Documents\\asdasd";
 
-            var dirPath = Directory.GetCurrentDirectory();
+            var dirPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
             var files = Directory.GetFiles(dirPath, "*.pdf");
 
             PrintInstructions();
@@ -56,14 +58,17 @@ namespace FileRenamer
         {
             foreach (var file in files)
             {
-                StringBuilder newFileName = ReplaceLetters(answer, file);
+                if (file.IndexOfAny("åäöÅÄÖ ".ToCharArray()) != -1)
+                {
+                    StringBuilder newFileName = ReplaceCharacters(answer, file);
 
-                File.Move(file, newFileName.ToString());
-                PrintNewFileNames(file, newFileName);
+                    File.Move(file, newFileName.ToString());
+                    PrintNewFileNames(file, newFileName);
+                }
             }
         }
 
-        private static StringBuilder ReplaceLetters(string answer, string file)
+        private static StringBuilder ReplaceCharacters(string answer, string file)
         {
             var newFileName = new StringBuilder(file);
             newFileName.Replace('å', 'a');
