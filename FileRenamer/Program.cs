@@ -16,12 +16,25 @@ namespace FileRenamer
         {
             //---Test directory---
             //var dirPath = "C:\\Users\\danie\\Documents\\asdasd";
+            //---Get current directory---
+            //var dirPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 
-            var dirPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-            var files = Directory.GetFiles(dirPath, "*.pdf");
+            string[] files;
+            while (true)
+            {
+                string dirPath = GetPath();
+                try
+                {
+                    files = Directory.GetFiles(dirPath, "*.pdf");
+                    break;
+                }
+                catch (DirectoryNotFoundException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
 
-            PrintInstructions();
-
+            Console.WriteLine("Vill du även ändra Å,Ä och Ö, alltså versalerna? Svara j eller n och tryck enter.");
             string answer = CheckForAnswer();
 
             RenameFiles(files, answer);
@@ -29,10 +42,12 @@ namespace FileRenamer
             Console.ReadKey();
         }
 
-        private static void PrintInstructions()
+        private static string GetPath()
         {
-            Console.WriteLine("Detta program ändrar å,ä och ö till a,a och o, samt mellanslag till _ i filnamnen på alla pdf-filer i mappen programmet ligger i.");
-            Console.WriteLine("Vill du även ändra Å,Ä och Ö, alltså versalerna? Svara j eller n och tryck enter.");
+            Console.WriteLine("Detta program ändrar å,ä och ö till a,a och o, samt mellanslag till _ i filnamnen på alla pdf-filer vald mapp.");
+            Console.WriteLine("Ange sökväg: ");
+            var dirPath = Console.ReadLine();
+            return dirPath;
         }
 
         private static string CheckForAnswer()
