@@ -28,7 +28,7 @@ namespace FileRenamer
                     files = Directory.GetFiles(dirPath, "*.pdf");
                     break;
                 }
-                catch (DirectoryNotFoundException e)
+                catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
                 }
