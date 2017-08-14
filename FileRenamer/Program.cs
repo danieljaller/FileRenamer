@@ -14,11 +14,6 @@ namespace FileRenamer
         private static int _counter;
         static void Main(string[] args)
         {
-            //---Test directory---
-            //var dirPath = "C:\\Users\\danie\\Documents\\asdasd";
-            //---Get current directory---
-            //var dirPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-
             string[] files;
             while (true)
             {
